@@ -1,0 +1,31 @@
+/* custom scroll bar */
+/* This will hide the default scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #242424;
+  border-radius: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #141414;
+  border-radius: 20px;
+}
+/* scroll corner */
+::-webkit-scrollbar-corner {
+  display: hidden;
+}
+
+#image-tiles {
+  overflow-x: hidden;
+}
+
+/* disable scrollbar on flex box wehn its loading*/
+.no-scroll {
+  overflow: hidden;
+}
