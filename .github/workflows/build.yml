@@ -10,14 +10,20 @@ jobs:
   install_dependencies:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+    outputs:
+      cache-hit: ${{ steps.cache-dependencies.outputs.cache-hit }}
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        id: cache-dependencies
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -32,10 +38,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
 
       - name: Lint
         run: npm run lint
@@ -45,10 +53,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
 
       - name: Type Check
         run: npm run typecheck
@@ -58,13 +68,15 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "14"
 
       - name: Cache Node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -72,6 +84,7 @@ jobs:
             ${{ runner.OS }}-node-
 
       - name: Install dependencies
+        if: needs.install_dependencies.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build
