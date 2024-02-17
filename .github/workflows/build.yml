@@ -13,6 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install Wix
+        uses: actions/checkout@v2
+        with:
+          repository: fbarresi/wix
+          path: wix
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
@@ -36,16 +47,10 @@ jobs:
         run: npm run typecheck
 
       - name: Build
-        run: npm run make
-
-      - name: Upload barcode-scanner package
-        uses: actions/upload-artifact@v2
-        with:
-          name: barcode-scanner-package
-          path: out/barcode-scanner-win32-x64/*
+        run: npm run make-ci
 
       - name: Upload barcode-scanner msi
         uses: actions/upload-artifact@v2
         with:
           name: barcode-scanner-msi
-          path: out/make/wix/x64/barcode-scanner.msi
+          path: out/make/squirrel.windows/x64/barcode-scanner-1.0.0 Setup.exe

@@ -14,7 +14,8 @@
     "start": "electron-vite preview --outDir=dist",
     "dev": "electron-vite dev --outDir=dist",
     "package": "electron-vite build --outDir=dist && electron-forge package",
-    "make": "electron-vite build --outDir=dist && electron-forge make"
+    "make-wix": "electron-vite build --outDir=dist && electron-forge make --targets=@electron-forge/maker-wix",
+    "make-ci": "electron-vite build --outDir=dist && electron-forge make --targets=@electron-forge/maker-squirrel"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
     "@electron-forge/maker-wix": "^7.2.0",
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
     "@electron-toolkit/eslint-config-ts": "^1.0.1",

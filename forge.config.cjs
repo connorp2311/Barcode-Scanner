@@ -16,6 +16,13 @@ module.exports = {
         manufacturer: 'Connor Parsons',
         upgradeCode: '93f6064f-f557-4061-a796-b45634d5f18a'
       }
+    },
+    {
+      name: '@electron-forge/maker-squirrel',
+      config: {
+        author: 'Connor Parsons',
+        setupIcon: './resources/favicon.ico'
+      }
     }
   ]
 }
