@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 jobs:
-  build:
-    runs-on: windows-latest
+  install_dependencies:
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -27,11 +27,52 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+  lint:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
       - name: Lint
         run: npm run lint
 
+  type_check:
+    needs: install_dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
       - name: Type Check
         run: npm run typecheck
+
+  build:
+    needs: [lint, type_check]
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
         run: npm run make-ci
