@@ -270,7 +270,7 @@ const BarcodeReader: React.FC = () => {
           </Grid.Col>
         </Grid>
       </AppShell.Main>
-    </AppShell >
+    </AppShell>
   )
 }
 
